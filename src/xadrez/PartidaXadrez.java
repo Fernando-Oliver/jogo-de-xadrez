@@ -26,7 +26,7 @@ public class PartidaXadrez {
 	
 	private void ConfiguracaoInicial() {
 		tabu.colocarPeca(new Torre(tabu, Cores.BRANCO), new Posicao(2, 1));
-		tabu.colocarPeca(new Rei(tabu, Cores.PRETO), new Posicao(4, 0));
+		tabu.colocarPeca(new Rei(tabu, Cores.PRETO), new Posicao(2, 1));
 		tabu.colocarPeca(new Rei(tabu, Cores.BRANCO), new Posicao(7, 4));
 	}
 }
