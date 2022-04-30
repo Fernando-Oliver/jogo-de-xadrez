@@ -1,4 +1,4 @@
-package tabuleiro;
+package jogodetabuleiro;
 
 public class Posicao {
 
