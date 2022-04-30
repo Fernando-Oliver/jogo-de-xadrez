@@ -1,5 +1,7 @@
 package jogodetabuleiro;
 
+import xadrez.PartidaXadrez;
+
 public class Tabuleiro {
 
 	private int linhas;
@@ -30,6 +32,11 @@ public class Tabuleiro {
 		this.colunas = colunas;
 	}
 	
-	
+	public Peca peca(int linha, int coluna) {
+		return pecas[linha][coluna];
+	}
+	public Peca peca (Posicao posicao) {
+		return pecas[posicao.getLinha()][posicao.getColuna()];
+	}
 	
 }

@@ -3,17 +3,15 @@ package jogodetabuleiro;
 public class Peca {
 
 	protected Posicao posicao;
-	private Tabuleiro borda;
+	private Tabuleiro tabu;
 	
 	public Peca() {}
 
-	public Peca(Tabuleiro borda) {
-		this.borda = borda;
+	public Peca(Tabuleiro tabu) {
+		this.tabu = tabu;
 	}
 
-	protected Tabuleiro getBorda() {
-		return borda;
+	protected Tabuleiro getTabu() {
+		return tabu;
 	}
-	
-	
 }
