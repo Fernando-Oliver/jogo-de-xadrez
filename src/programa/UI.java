@@ -8,6 +8,10 @@ import xadrez.XadrezPosicao;
 
 public class UI {
 	
+	public static void clearConsole() {
+		System.out.println();
+		System.out.flush();
+	}
 	public static XadrezPosicao lerPosicao(Scanner sc){
 		try {
 		String s = sc.nextLine();
