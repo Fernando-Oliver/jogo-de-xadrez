@@ -8,7 +8,8 @@ import xadrez.XadrezPosicao;
 
 public class UI {
 	
-	public static void clearConsole() {
+	
+	public static void  limparConsole() {
 		System.out.println();
 		System.out.flush();
 	}
@@ -27,14 +28,25 @@ public class UI {
 		for(int i = 0; i < pecas.length; i++ ) {
 			System.out.print((8 - i) + " ");
 			for(int j = 0; j<pecas.length; j++) {
-				printPecas(pecas[i][j]);
+				printPecas(pecas[i][j], false);
 			}
 			System.out.println();
 		}
 		System.out.println("  A B C D E F G H");
 	}
 	
-	private static void printPecas(PecaXadrez peca) {
+	public static void printTabuleiro(PecaXadrez[][]pecas, boolean[][] movimentosPosssiveis) {
+		for(int i = 0; i < pecas.length; i++ ) {
+			System.out.print((8 - i) + " ");
+			for(int j = 0; j<pecas.length; j++) {
+				printPecas(pecas[i][j], movimentosPosssiveis[i][j]);
+			}
+			System.out.println();
+		}
+		System.out.println("  A B C D E F G H");
+	}
+	
+	private static void printPecas(PecaXadrez peca, boolean cordefundo) {
 		if(peca == null) {
 			System.out.print("-");
 		}else {

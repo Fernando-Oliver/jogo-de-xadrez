@@ -26,6 +26,13 @@ public class PartidaXadrez {
 		return mat;
 	}
 	
+	public boolean[][] movimentosPosssiveis(XadrezPosicao posicaoorigem){
+		Posicao posicao = posicaoorigem.toPosicao();
+		validarPosicaoOrigem(posicao);
+		return tabu.peca(posicao).movimentosPossiveis();
+		
+	}
+	
 	public PecaXadrez executarMovimento(XadrezPosicao posicaoOrigem, XadrezPosicao posicaoDestino ) {
 		Posicao origem = posicaoOrigem.toPosicao();
 		Posicao destino = posicaoDestino.toPosicao();
@@ -34,12 +41,14 @@ public class PartidaXadrez {
 		Peca pecaCapturada = realizarMovimento(origem, destino);
 		return (PecaXadrez)pecaCapturada;
 	}
+	
 	private  Peca realizarMovimento(Posicao origem, Posicao destino) {
 		Peca p = tabu.removePeca(origem);
 		Peca pecaCapturada = tabu.removePeca(destino);
 		tabu.colocarPeca(p, destino);
 		return pecaCapturada;
 	}
+	
 	private void validarPosicaoOrigem(Posicao posicao) {
 		if(!tabu.posicaoExistente(posicao)) {
 			throw new XadrezExcecao("Não existe peça na posição de origem");
@@ -58,6 +67,7 @@ public class PartidaXadrez {
 	private void colocarNovaPeca(char coluna, int linha, PecaXadrez peca) {
 		tabu.colocarPeca(peca, new XadrezPosicao(coluna, linha).toPosicao());
 	}
+	
 	private void ConfiguracaoInicial() {
 		colocarNovaPeca('C', 8, new Torre(tabu, Cores.BRANCO));
 		colocarNovaPeca('C', 7, new Torre(tabu, Cores.BRANCO));

@@ -16,13 +16,16 @@ public class Main {
 		PartidaXadrez PartidaXadrez = new PartidaXadrez();
 		while(true) {
 			try {
-			UI.clearConsole();
+			UI.limparConsole();
 			UI.printTabuleiro(PartidaXadrez.getPecas());
 			System.out.println();
 			System.out.print("origem ");
 			XadrezPosicao origem = UI.lerPosicao(sc);
 			
-		
+		boolean[][] movimentosPossiveis = PartidaXadrez.movimentosPosssiveis(origem);
+		UI.limparConsole();
+		UI.printTabuleiro(PartidaXadrez.getPecas(),movimentosPossiveis);
+			
 			System.out.println();
 			System.out.print("Destino ");
 			XadrezPosicao destino = UI.lerPosicao(sc);
