@@ -17,7 +17,7 @@ public abstract class Peca {
 	
 	public abstract boolean[][] movimentosPossiveis();
 	
-	public  boolean possiveisPosica(Posicao posicao) {
+	public  boolean movimentoPossivel(Posicao posicao) {
 		return movimentosPossiveis()[posicao.getLinha()][posicao.getColuna()];
 		
 	}

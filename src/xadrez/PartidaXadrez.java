@@ -29,7 +29,8 @@ public class PartidaXadrez {
 	public PecaXadrez executarMovimento(XadrezPosicao posicaoOrigem, XadrezPosicao posicaoDestino ) {
 		Posicao origem = posicaoOrigem.toPosicao();
 		Posicao destino = posicaoDestino.toPosicao();
-		validarPosicao(origem);
+		validarPosicaoOrigem(origem);
+		validarPosicaoDestino(origem, destino);
 		Peca pecaCapturada = realizarMovimento(origem, destino);
 		return (PecaXadrez)pecaCapturada;
 	}
@@ -39,7 +40,7 @@ public class PartidaXadrez {
 		tabu.colocarPeca(p, destino);
 		return pecaCapturada;
 	}
-	private void validarPosicao(Posicao posicao) {
+	private void validarPosicaoOrigem(Posicao posicao) {
 		if(!tabu.posicaoExistente(posicao)) {
 			throw new XadrezExcecao("Não existe peça na posição de origem");
 		}
@@ -48,12 +49,27 @@ public class PartidaXadrez {
 		}
 	}
 	
+	private void validarPosicaoDestino(Posicao origem, Posicao destino){
+		if(!tabu.peca(origem).movimentoPossivel(destino)) {
+			throw new XadrezExcecao("A peça escolhida não pode se mover para a posição de destino");
+		}
+	}
+	
 	private void colocarNovaPeca(char coluna, int linha, PecaXadrez peca) {
 		tabu.colocarPeca(peca, new XadrezPosicao(coluna, linha).toPosicao());
 	}
 	private void ConfiguracaoInicial() {
-		colocarNovaPeca('B', 6, new Torre(tabu, Cores.BRANCO));
-		colocarNovaPeca('E', 8, new Rei(tabu, Cores.PRETO));
-		colocarNovaPeca('E', 1, new Rei(tabu, Cores.BRANCO));
+		colocarNovaPeca('C', 8, new Torre(tabu, Cores.BRANCO));
+		colocarNovaPeca('C', 7, new Torre(tabu, Cores.BRANCO));
+		colocarNovaPeca('D', 8, new Rei(tabu, Cores.BRANCO));
+		colocarNovaPeca('D', 7, new Torre(tabu, Cores.BRANCO));
+		colocarNovaPeca('E', 8, new Torre(tabu, Cores.BRANCO));
+		colocarNovaPeca('E', 7, new Torre(tabu, Cores.BRANCO));
+		colocarNovaPeca('C', 1, new Torre(tabu, Cores.PRETO));
+		colocarNovaPeca('C', 2, new Torre(tabu, Cores.PRETO));
+		colocarNovaPeca('D', 1, new Rei(tabu, Cores.PRETO));
+		colocarNovaPeca('D', 2, new Torre(tabu, Cores.PRETO));
+		colocarNovaPeca('E', 1, new Torre(tabu, Cores.PRETO));
+		colocarNovaPeca('E', 2, new Torre(tabu, Cores.PRETO));
 	}
 }
