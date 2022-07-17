@@ -7,12 +7,15 @@ import xadrez.PecaXadrez;
 
 public class Peao extends PecaXadrez {
 
-	public Peao() {
-		super();
-	}
+	public Peao() {}
 
 	public Peao(Tabuleiro tabu, Cores cores) {
 		super(tabu, cores);
+	}
+	
+	@Override
+	public String toString() {
+		return "P";
 	}
 
 	@Override
@@ -63,8 +66,4 @@ public class Peao extends PecaXadrez {
 		return mat;
 	}
 
-	@Override
-	public String toString() {
-		return "P";
-	}
 }
