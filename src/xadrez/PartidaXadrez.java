@@ -1,5 +1,6 @@
 package xadrez;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +23,7 @@ public class PartidaXadrez {
 	private boolean xeque;
 	private boolean xequeMate;
 	private PecaXadrez enPassantVulneravel;
+	private PecaXadrez promocao;
 
 	private List<Peca> pecasNoTabuleiro = new ArrayList<>();
 	private List<Peca> pecasCapturadas = new ArrayList<>();
@@ -51,6 +53,10 @@ public class PartidaXadrez {
 
 	public PecaXadrez getEnPassantVulneravel() {
 		return enPassantVulneravel;
+	}
+	
+	public PecaXadrez getPromocao() {
+		return promocao;
 	}
 
 	public PecaXadrez[][] getPecas() {
@@ -83,6 +89,15 @@ public class PartidaXadrez {
 		}
 
 		PecaXadrez pecaMoveu = (PecaXadrez) tabu.peca(destino);
+		
+		// #movimento especial promocao
+		promocao = null;
+		if(pecaMoveu instanceof Peao) {
+			if(pecaMoveu.getCores() == Cores.BRANCO && destino.getColuna() == 0 || pecaMoveu.getCores() == Cores.PRETO && destino.getColuna() == 7 ) {
+				promocao = (PecaXadrez)tabu.peca(destino);
+				promocao = substituirPecaPromovida("A");
+			}
+		}
 
 		xeque = (testarXeque(oponente(jogadorAtual))) ? true : false;
 		if (testeXequeMate(oponente(jogadorAtual))) {
@@ -100,7 +115,33 @@ public class PartidaXadrez {
 		}
 		return (PecaXadrez) pecaCapturada;
 	}
+	
+	public PecaXadrez substituirPecaPromovida(String tipo) {
+		if(promocao == null) {
+			throw new IllegalStateException("Não há peça para ser promovida!");
+		}
+		if(!tipo.equals("B") && !tipo.equals("C") && !tipo.equals("T") && !tipo.equals("A")) {
+			throw new InvalidParameterException("Promoção inválida!");
+		}
+		
+		Posicao pos = promocao.pegaPosicaoXadrez().toPosicao();
+		Peca p = tabu.removePeca(pos);
+		pecasNoTabuleiro.remove(p);
+		
+		PecaXadrez novaPeca = novaPeca(tipo, promocao.getCores());
+		tabu.colocarPeca(novaPeca, pos);
+		pecasNoTabuleiro.add(novaPeca);
+		
+		return novaPeca;
+	}
 
+	private PecaXadrez novaPeca(String tipo, Cores cor) {
+		if(tipo.equals("B")) return new Bispo(tabu, cor);
+		if(tipo.equals("C")) return new Cavalo(tabu, cor);
+		if(tipo.equals("A")) return new Rainha(tabu, cor);
+	    return new Torre(tabu, cor);
+	}
+	
 	private Peca realizarMovimento(Posicao origem, Posicao destino) {
 		PecaXadrez p = (PecaXadrez) tabu.removePeca(origem);
 		p.incrementarMovimentos();
